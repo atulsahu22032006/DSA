@@ -1,22 +1,17 @@
 class Solution {
-    static int[] dp;
-
-    public int rob(int[] arr) {
-        int n = arr.length;
-        dp = new int[n];
-        Arrays.fill(dp, -1);
-        return loot(0, arr);
-    }
-
-    public int loot(int i, int[] arr) {
-        if (i >= arr.length)
+    public int amount(int[] nums, int i, int[] dp) {
+        if (i >= nums.length)
             return 0;
         if (dp[i] != -1)
             return dp[i];
-        int pick = arr[i] + loot(i + 2, arr);
-        int skip = loot(i + 1, arr);
-        int ans = Math.max(pick, skip);
-        dp[i] = ans;
-        return ans;
+        int take = nums[i] + amount(nums, i + 2, dp);
+        int skip = amount(nums, i + 1, dp);
+        return dp[i] = Math.max(take, skip);
+    }
+
+    public int rob(int[] nums) {
+        int[] dp = new int[nums.length];
+        Arrays.fill(dp, -1);
+        return amount(nums, 0, dp);
     }
 }
